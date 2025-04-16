@@ -1,5 +1,5 @@
 
-import { BarChart3, AlertTriangle, Package } from "lucide-react";
+import { BarChart3, AlertTriangle, Package, Store } from "lucide-react";
 
 const DashboardStats = () => {
   // These would be fetched from API in a real application
