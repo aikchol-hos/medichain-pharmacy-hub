@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Pill, Eye, EyeOff } from "lucide-react";
@@ -13,6 +14,7 @@ import {
 } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -22,28 +24,37 @@ const Login = () => {
   
   const form = useForm({
     defaultValues: {
-      username: "",
+      email: "",
       password: "",
     },
   });
 
-  const onSubmit = async (data: { username: string; password: string }) => {
+  const onSubmit = async (data: { email: string; password: string }) => {
     setIsLoading(true);
     
-    // Simulating API call
-    setTimeout(() => {
-      setIsLoading(false);
-      
-      // For demo purposes we'll just show a success message
-      // In a real app, you would validate credentials against your API
+    try {
+      const { error } = await supabase.auth.signInWithPassword({
+        email: data.email,
+        password: data.password,
+      });
+
+      if (error) throw error;
+
       toast({
         title: "Login successful",
         description: "Welcome to MediChain Pharmacy Hub",
       });
       
-      // Redirect to dashboard after successful login
       navigate("/dashboard");
-    }, 1000);
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to login",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -62,12 +73,16 @@ const Login = () => {
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
               <FormField
                 control={form.control}
-                name="username"
+                name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Username</FormLabel>
+                    <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter your username" {...field} />
+                      <Input 
+                        type="email" 
+                        placeholder="Enter your email" 
+                        {...field} 
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -106,13 +121,6 @@ const Login = () => {
               </Button>
             </form>
           </Form>
-        </div>
-        
-        <div className="mt-6 text-center text-sm text-gray-600">
-          <p>Demo credentials:</p>
-          <p className="mt-1">Username: admin, Password: admin123</p>
-          <p className="mt-1">Username: pharmacist, Password: pharm123</p>
-          <p className="mt-1">Username: viewer, Password: view123</p>
         </div>
       </div>
     </div>
