@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Pill, Eye, EyeOff } from "lucide-react";
@@ -48,19 +47,19 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 px-4">
-      <div className="w-full max-w-md">
+    <div className="min-h-screen flex flex-col bg-gray-50 px-4 py-6 safe-top">
+      <div className="w-full max-w-md mx-auto">
         <div className="flex flex-col items-center mb-6">
           <div className="bg-white p-3 rounded-full shadow-sm mb-4">
             <Pill className="h-8 w-8 text-purple-600" />
           </div>
-          <h1 className="text-2xl font-bold text-center text-gray-900">MediChain Pharmacy Hub</h1>
+          <h1 className="text-2xl font-bold text-center text-gray-900">MediChain</h1>
           <p className="text-gray-600 mt-2 text-center">Login to access your pharmacy inventory</p>
         </div>
         
-        <div className="bg-white p-8 rounded-lg shadow-md border border-gray-200">
+        <div className="bg-white p-6 rounded-lg shadow-md border border-gray-200">
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
               <FormField
                 control={form.control}
                 name="username"
@@ -102,7 +101,7 @@ const Login = () => {
                 )}
               />
               
-              <Button type="submit" className="w-full" disabled={isLoading}>
+              <Button type="submit" className="w-full mobile-button" disabled={isLoading}>
                 {isLoading ? "Logging in..." : "Login"}
               </Button>
             </form>
@@ -111,9 +110,9 @@ const Login = () => {
         
         <div className="mt-6 text-center text-sm text-gray-600">
           <p>Demo credentials:</p>
-          <p>Username: admin, Password: admin123</p>
-          <p>Username: pharmacist, Password: pharm123</p>
-          <p>Username: viewer, Password: view123</p>
+          <p className="mt-1">Username: admin, Password: admin123</p>
+          <p className="mt-1">Username: pharmacist, Password: pharm123</p>
+          <p className="mt-1">Username: viewer, Password: view123</p>
         </div>
       </div>
     </div>
